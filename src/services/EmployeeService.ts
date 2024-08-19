@@ -15,14 +15,30 @@ export const createEmployee = async function (employee: EmployeeRequest): Promis
 
         return response.data;
     } catch (e) {
+        if (e.response.status == 400) {
+            throw new Error('Invalid data');
+        }
+        if (e.response.status == 500) {
+            throw new Error('Could not create employee');
+        }
+
         throw new Error(e.message);
     }    
 }
 
 export const getSingleEmployee = async function (id: string): Promise<EmployeeResponse> {
-    const response: AxiosResponse = await axios.get(URL + id);
+    try {
+        const response: AxiosResponse = await axios.get(URL + id);
+        return response.data;
+    } catch (e) {
+        if (e.response.status == 400) {
+            throw new Error('Employee does not exist');
+        }
+        throw new Error('Could not get employee');
+    }
+    
 
-    return response.data;
+    
 }
 
 export const getAllEmployees = async function (): Promise<EmployeeResponse[]> {

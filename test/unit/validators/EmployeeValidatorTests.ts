@@ -55,6 +55,7 @@ describe('EmployeeValidator', function () {
         assert.fail("Expected error message");
       })
 
+
     /*
     Unit Test Exercise 1
 
@@ -66,6 +67,32 @@ describe('EmployeeValidator', function () {
 
     This should pass without code changes
      */
+
+    it('should return error when bank number too short', () => {
+      const employeeRequest: EmployeeRequest = {
+        salary: 30000,
+        fname: "Mocha",
+        lname: "Chai",
+        email: "test@email.com",
+        address: "address",
+        address2: "address2",
+        city: "city",
+        county: "county",
+        postalCode: "postalCode",
+        country: "country",
+        phoneNo: "01234567890",
+        bankNo: "123456",
+        nin: "12345678"
+      }
+
+      try {
+        validateEmployeeRequest(employeeRequest);
+      } catch(e) {
+        expect(e.message).to.equal("Invalid bank number");
+        return;
+      }
+      assert.fail("Expected error message");
+    })
 
     /*
     Unit Test Exercise 2
@@ -79,6 +106,32 @@ describe('EmployeeValidator', function () {
     This should pass without code changes
      */
 
+    it('should return error when bank number too long', () => {
+      const employeeRequest: EmployeeRequest = {
+        salary: 30000,
+        fname: "Mocha",
+        lname: "Chai",
+        email: "test@email.com",
+        address: "address",
+        address2: "address2",
+        city: "city",
+        county: "county",
+        postalCode: "postalCode",
+        country: "country",
+        phoneNo: "01234567890",
+        bankNo: "123456789",
+        nin: "12345678"
+      }
+
+      try {
+        validateEmployeeRequest(employeeRequest);
+      } catch(e) {
+        expect(e.message).to.equal("Invalid bank number");
+        return;
+      }
+      assert.fail("Expected error message");
+    })
+
     /*
     Unit Test Exercise 3
 
@@ -90,6 +143,33 @@ describe('EmployeeValidator', function () {
 
     This should fail, make code changes to make this test pass
      */
+
+    it('should return error when first name too long', () => {
+      const employeeRequest: EmployeeRequest = {
+        salary: 30000,
+        fname: "Mochaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        lname: "Chai",
+        email: "test@email.com",
+        address: "address",
+        address2: "address2",
+        city: "city",
+        county: "county",
+        postalCode: "postalCode",
+        country: "country",
+        phoneNo: "01234567890",
+        bankNo: "12345678",
+        nin: "12345678"
+      }
+
+      try {
+        validateEmployeeRequest(employeeRequest)
+
+      } catch(e) {
+        expect(e.message).to.equal("First name greater than 50 characters!");
+        return;
+      }
+      assert.fail("Expected error message");
+    })
 
     /*
     Unit Test Exercise 4
@@ -103,6 +183,32 @@ describe('EmployeeValidator', function () {
     This should fail, make code changes to make this test pass
      */
 
+    it('should return error when last name too long', () => {
+      const employeeRequest: EmployeeRequest = {
+        salary: 30000,
+        fname: "Mocha",
+        lname: "Chaiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        email: "test@email.com",
+        address: "address",
+        address2: "address2",
+        city: "city",
+        county: "county",
+        postalCode: "postalCode",
+        country: "country",
+        phoneNo: "01234567890",
+        bankNo: "12345678",
+        nin: "12345678"
+      }
+
+      try {
+        validateEmployeeRequest(employeeRequest)
+
+      } catch(e) {
+        expect(e.message).to.equal("Last name greater than 50 characters!");
+        return;
+      }
+      assert.fail("Expected error message");
+    })
     /*
     Unit Test Exercise 5
 
@@ -115,6 +221,33 @@ describe('EmployeeValidator', function () {
     This should fail, make code changes to make this test pass
      */
 
+    it('should return error when nin too long', () => {
+      const employeeRequest: EmployeeRequest = {
+        salary: 30000,
+        fname: "Mocha",
+        lname: "Chai",
+        email: "test@email.com",
+        address: "address",
+        address2: "address2",
+        city: "city",
+        county: "county",
+        postalCode: "postalCode",
+        country: "country",
+        phoneNo: "01234567890",
+        bankNo: "12345678",
+        nin: "1234567812"
+      }
+
+      try {
+        validateEmployeeRequest(employeeRequest)
+
+      } catch(e) {
+        expect(e.message).to.equal("Nin Invalid!");
+        return;
+      }
+      assert.fail("Expected error message");
+    })
+
     /*
     Unit Test Exercise 6
 
@@ -126,5 +259,33 @@ describe('EmployeeValidator', function () {
 
     This should fail, make code changes to make this test pass
      */
+
+    it('should return error when nin too short', () => {
+      const employeeRequest: EmployeeRequest = {
+        salary: 30000,
+        fname: "Mocha",
+        lname: "Chai",
+        email: "test@email.com",
+        address: "address",
+        address2: "address2",
+        city: "city",
+        county: "county",
+        postalCode: "postalCode",
+        country: "country",
+        phoneNo: "01234567890",
+        bankNo: "12345678",
+        nin: "1234567"
+      }
+
+      try {
+        validateEmployeeRequest(employeeRequest)
+
+      } catch(e) {
+        expect(e.message).to.equal("Nin Invalid!");
+        return;
+      }
+      assert.fail("Expected error message");
+    })
+
     })
   })
