@@ -46,6 +46,38 @@ describe('Employee test', async () => {
     Expect 'Salary must be at least £20,000' error to be displayed
     */
 
+    it('Should create new employee with too low salary and error should be displayed', async () => {
+        const driver = new webdriver.Builder().
+        withCapabilities(webdriver.Capabilities.chrome()).
+        build();
+
+        const url: string = process.env.UI_TEST_URL || 'http://localhost:3000/'
+        await driver.get(url);
+
+        await driver.findElement(webdriver.By.id('add-employee-button')).click();
+
+        await driver.findElement(webdriver.By.id('fname')).sendKeys('UI');
+        await driver.findElement(webdriver.By.id('lname')).sendKeys('Tests');
+        await driver.findElement(webdriver.By.id('email')).sendKeys('testemail@email.com');
+        await driver.findElement(webdriver.By.id('address')).sendKeys('1 Home Street');
+        await driver.findElement(webdriver.By.id('address2')).sendKeys('Home Lane');
+        await driver.findElement(webdriver.By.id('city')).sendKeys('Belfast');
+        await driver.findElement(webdriver.By.id('county')).sendKeys('Antrim');
+        await driver.findElement(webdriver.By.id('postalCode')).sendKeys('BT9');
+        await driver.findElement(webdriver.By.id('country')).sendKeys('Norn Iron');
+        await driver.findElement(webdriver.By.id('phoneNo')).sendKeys('01234567890');
+        await driver.findElement(webdriver.By.id('bankNo')).sendKeys('12345678');
+        await driver.findElement(webdriver.By.id('nin')).sendKeys('AA1A11AA');
+        await driver.findElement(webdriver.By.id('salary')).sendKeys('10000');
+        await driver.findElement(webdriver.By.id('submit')).click();
+   
+        const error = await driver.findElement(webdriver.By.id('create-employee-error')).getText();
+
+        await driver.quit();
+
+        expect(error).to.equal('Salary must be at least £20,000');    
+    });
+
     /*
     UI Test Exercise 2
 
@@ -57,6 +89,25 @@ describe('Employee test', async () => {
 
     Expect the name on the view employee page to match the name from the link you've clicked
     */
+    it('Should navigate from homepage to employee list, and name clicked should match name displayed', async () => {
+        const driver = new webdriver.Builder().
+        withCapabilities(webdriver.Capabilities.chrome()).
+        build();
+
+        const url: string = process.env.UI_TEST_URL || 'http://localhost:3000/'
+        await driver.get(url);   
+        
+        await driver.findElement(webdriver.By.id('view-employees-button')).click();
+
+        const listName = await driver.findElement(webdriver.By.linkText('UI Tests')).getText();
+        await driver.findElement(webdriver.By.linkText('UI Tests')).click();
+
+        const detailName = await driver.findElement(webdriver.By.id('name')).getText();
+
+        await driver.quit();
+
+        expect(listName).to.equal(detailName);  
+    })
 
     /*
     UI Test Exercise 3
@@ -67,5 +118,17 @@ describe('Employee test', async () => {
 
     Expect 'Employee does not exist' error to be displayed
     */
+
+    it('Should display 404 error when navigating to invalid employee page', async () => {
+        const driver = new webdriver.Builder().
+        withCapabilities(webdriver.Capabilities.chrome()).
+        build();
+
+        const url: string = process.env.UI_TEST_URL || 'http://localhost:3000/'
+        await driver.get(url+"employees/-1");   
+
+        const error = await driver.findElement(webdriver.By.id('employee-exist')).getText();
+        expect(error).to.equal('Employee does not exist');
+    })
 
   })
